@@ -2,6 +2,7 @@ package de.redjulu.warPlugin;
 
 import de.redjulu.warPlugin.commands.VanishCommand;
 import de.redjulu.warPlugin.gui.GUIManager;
+import de.redjulu.warPlugin.listeners.MainListener;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -20,8 +21,11 @@ public final class WarPlugin extends JavaPlugin {
     public void onEnable() {
         instance = this;
 
-        Bukkit.getPluginManager().registerEvents(new GUIManager(), this);
+        //DEBUG!!
+        ranks.put(UUID.fromString("e653bee0-27f0-4c2e-98a2-3f8fd4b55ef6"), 2);
 
+        Bukkit.getPluginManager().registerEvents(new GUIManager(), this);
+        Bukkit.getPluginManager().registerEvents(new MainListener(), this);
         getCommand("vanish").setExecutor(new VanishCommand());
 
 

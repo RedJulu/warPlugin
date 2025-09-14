@@ -11,13 +11,10 @@ public class MainListener implements Listener {
 
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {
-        if (!WarPlugin.getInstance().money.containsKey(e.getPlayer().getUniqueId())) {
-            WarPlugin.getInstance().money.put(e.getPlayer().getUniqueId(), 0);
-        }
 
-        if (!WarPlugin.getInstance().ranks.containsKey(e.getPlayer().getUniqueId())) {
-            WarPlugin.getInstance().ranks.put(e.getPlayer().getUniqueId(), 0);
-        }
+        WarPlugin.getInstance().money.computeIfAbsent(e.getPlayer().getUniqueId(), k -> 0);
+
+        WarPlugin.getInstance().ranks.computeIfAbsent(e.getPlayer().getUniqueId(), k -> 0);
 
         if(WarPlugin.getInstance().vanish.containsKey(e.getPlayer().getUniqueId())) {
             if(WarPlugin.getInstance().vanish.get(e.getPlayer().getUniqueId())) {
@@ -37,9 +34,9 @@ public class MainListener implements Listener {
                 e.setQuitMessage(null);
                 return;
             }
-            e.setQuitMessage("§7§l[§c§l+§7§l] " + RankUtils.getRankColour(e.getPlayer()) + e.getPlayer().getName());
+            e.setQuitMessage("§7§l[§c§l-§7§l] " + RankUtils.getRankColour(e.getPlayer()) + e.getPlayer().getName());
         }
-        e.setQuitMessage("§7§l[§c§l+§7§l] " + RankUtils.getRankColour(e.getPlayer()) + e.getPlayer().getName());
+        e.setQuitMessage("§7§l[§c§l-§7§l] " + RankUtils.getRankColour(e.getPlayer()) + e.getPlayer().getName());
     }
 
 }
