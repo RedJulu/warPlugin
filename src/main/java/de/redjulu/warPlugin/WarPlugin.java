@@ -15,6 +15,7 @@ public final class WarPlugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        instance = this;
 
         Bukkit.getPluginManager().registerEvents(new GUIManager(), this);
 
