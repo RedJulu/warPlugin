@@ -32,7 +32,7 @@ public class MoneyCommand implements CommandExecutor, TabCompleter {
 
         // /money -> Kontostand für alle
         if (args.length == 0) {
-            p.sendMessage("§aDein Kontostand: §e" + EconomyUtils.getMoney(p) + " Coins");
+            p.sendMessage("§aDein Kontostand: §e" + EconomyUtils.getMoney(p) + " §aMünzen.");
             return true;
         }
 
@@ -49,7 +49,7 @@ public class MoneyCommand implements CommandExecutor, TabCompleter {
                 p.sendMessage("§cSpieler nicht gefunden!");
                 return true;
             }
-            p.sendMessage("§aKontostand von §e" + target.getName() + "§a: §e" + EconomyUtils.getMoney(target) + " Coins");
+            p.sendMessage("§aKontostand von " + RankUtils.getRankColour(target) + target.getName() + "§a: §e" + EconomyUtils.getMoney(target) + " §aMünzen.");
             return true;
         }
 

@@ -17,14 +17,14 @@ public class ScoreboardClass {
 
         Score p1 = objective.getScore(" ");
         Score rank = objective.getScore("§7▶ §6Rang: " + RankUtils.getRankColour(player) + RankUtils.getRankName(player));
-        Score p2 = objective.getScore("  ");
+        Score v = objective.getScore(WarPlugin.getInstance().vanish.get(player.getUniqueId()) ? "§7▶ §3[\uD83D\uDC41] Vanish" : "  ");
         Score money = objective.getScore("§7▶ §eMoney: §a" + EconomyUtils.getMoney(player));
         Score p3 = objective.getScore("   ");
         Score placeholder = objective.getScore("§7▶ §aPlaceholder xd");
 
         p1.setScore(5);
         rank.setScore(4);
-        p2.setScore(3);
+        v.setScore(3);
         money.setScore(2);
         p3.setScore(1);
         placeholder.setScore(0);
@@ -45,14 +45,14 @@ public class ScoreboardClass {
 
         Score p1 = objective.getScore(" ");
         Score rank = objective.getScore("§7▶ §6Rang: " + RankUtils.getRankColour(player) + RankUtils.getRankName(player));
-        Score p2 = objective.getScore("  ");
+        Score v = objective.getScore(WarPlugin.getInstance().vanish.get(player.getUniqueId()) ? "§7▶ §3[\uD83D\uDC41] Vanish" : "  ");
         Score money = objective.getScore("§7▶ §eMoney: §a" + EconomyUtils.getMoney(player));
         Score p3 = objective.getScore("   ");
         Score placeholder = objective.getScore("§7▶ §aPlaceholder xd");
 
         p1.setScore(5);
         rank.setScore(4);
-        p2.setScore(3);
+        v.setScore(3);
         money.setScore(2);
         p3.setScore(1);
         placeholder.setScore(0);

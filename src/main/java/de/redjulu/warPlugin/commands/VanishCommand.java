@@ -1,5 +1,7 @@
 package de.redjulu.warPlugin.commands;
 
+import de.redjulu.warPlugin.ScoreboardClass;
+import de.redjulu.warPlugin.TablistClass;
 import de.redjulu.warPlugin.WarPlugin;
 import de.redjulu.warPlugin.utils.RankUtils;
 import org.bukkit.Bukkit;
@@ -58,6 +60,8 @@ public class VanishCommand implements CommandExecutor {
         }
 
         handleVanish(target);
+        ScoreboardClass.updateScoreboard(target);
+        TablistClass.updateTablist();
     }
 
     private void handleVanish(Player p) {
