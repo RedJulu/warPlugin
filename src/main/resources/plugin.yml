@@ -7,3 +7,5 @@ author: RedJulu
 
 commands:
   vanish:
+    aliases: [v]
+  money:

@@ -1,5 +1,6 @@
 package de.redjulu.warPlugin.listeners;
 
+import de.redjulu.warPlugin.ScoreboardClass;
 import de.redjulu.warPlugin.WarPlugin;
 import de.redjulu.warPlugin.utils.RankUtils;
 import org.bukkit.event.EventHandler;
@@ -11,6 +12,8 @@ public class MainListener implements Listener {
 
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {
+
+        ScoreboardClass.createScoreboard(e.getPlayer());
 
         WarPlugin.getInstance().money.computeIfAbsent(e.getPlayer().getUniqueId(), k -> 0);
 
