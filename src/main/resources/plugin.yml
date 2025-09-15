@@ -9,3 +9,5 @@ commands:
   vanish:
     aliases: [v]
   money:
+  rank:
+    aliases: [rang]

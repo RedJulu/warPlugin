@@ -15,7 +15,7 @@ public class TablistClass {
 
             // Header + Footer
             String header = "§a§lMinecraft §6§lWar" +
-                    "\n§3Online: §e" + Bukkit.getOnlinePlayers().size() +
+                    "\n§3Online: §e" + Bukkit.getOnlinePlayers().stream().filter(p -> WarPlugin.getInstance().vanish.get(p.getUniqueId())).count() +
                     "\n";
             String footer = "\n" +
                     "§7RedJulu & Nicofrit";

@@ -26,14 +26,20 @@ public abstract class AbstractGUI {
     private AbstractGUI previousGUI; // <- Parent/Back GUI
 
     public AbstractGUI(Player player) {
-        this(player, null);
+        this(player, null, true);
     }
 
     public AbstractGUI(Player player, AbstractGUI previousGUI) {
+        this(player, previousGUI, true);
+    }
+
+    public AbstractGUI(Player player, AbstractGUI previousGUI, boolean initInventory) {
         this.player = player;
         this.previousGUI = previousGUI;
-        this.inventory = createInventory();
-        setupButtons();
+        if (initInventory) {
+            this.inventory = createInventory();
+            setupButtons();
+        }
     }
 
     protected abstract Inventory createInventory();

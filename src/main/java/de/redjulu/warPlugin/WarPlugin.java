@@ -3,6 +3,7 @@ package de.redjulu.warPlugin;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import de.redjulu.warPlugin.commands.MoneyCommand;
+import de.redjulu.warPlugin.commands.RankCommand;
 import de.redjulu.warPlugin.commands.VanishCommand;
 import de.redjulu.warPlugin.gui.GUIManager;
 import de.redjulu.warPlugin.listeners.MainListener;
@@ -35,8 +36,6 @@ public final class WarPlugin extends JavaPlugin {
     public void onEnable() {
         instance = this;
 
-        //DEBUG!!
-        ranks.put(UUID.fromString("e653bee0-27f0-4c2e-98a2-3f8fd4b55ef6"), 2);
 
         // Dateien anlegen
         File dataFolder = getDataFolder();
@@ -56,8 +55,10 @@ public final class WarPlugin extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new GUIManager(), this);
         Bukkit.getPluginManager().registerEvents(new MainListener(), this);
         getCommand("vanish").setExecutor(new VanishCommand());
+        getCommand("rank").setExecutor(new RankCommand());
         getCommand("money").setExecutor(new MoneyCommand());
         getCommand("money").setTabCompleter(new MoneyCommand());
+
 
         getLogger().info("WarPlugin aktiviert!");
     }
