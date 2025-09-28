@@ -4,6 +4,7 @@ import de.redjulu.warPlugin.ScoreboardClass;
 import de.redjulu.warPlugin.TablistClass;
 import de.redjulu.warPlugin.WarPlugin;
 import de.redjulu.warPlugin.utils.RankUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -13,35 +14,40 @@ public class MainListener implements Listener {
 
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {
+        var player = e.getPlayer();
 
-        ScoreboardClass.createScoreboard(e.getPlayer());
+        ScoreboardClass.createScoreboard(player);
         TablistClass.updateTablist();
 
-        WarPlugin.getInstance().money.computeIfAbsent(e.getPlayer().getUniqueId(), k -> 0);
+        var plugin = WarPlugin.getInstance();
 
-        WarPlugin.getInstance().ranks.computeIfAbsent(e.getPlayer().getUniqueId(), k -> 0);
+        plugin.money.computeIfAbsent(player.getUniqueId(), k -> 0);
+        plugin.ranks.computeIfAbsent(player.getUniqueId(), k -> 0);
+        plugin.modify.computeIfAbsent(player.getUniqueId(), k -> false);
+        boolean vanished = plugin.vanish.getOrDefault(player.getUniqueId(), false);
 
-        if(WarPlugin.getInstance().vanish.containsKey(e.getPlayer().getUniqueId())) {
-            if(WarPlugin.getInstance().vanish.get(e.getPlayer().getUniqueId())) {
-                e.setJoinMessage(null);
-                return;
-            }
-            WarPlugin.getInstance().vanish.put(e.getPlayer().getUniqueId(), false);
-            e.setJoinMessage("§7§l[§a§l+§7§l] " + RankUtils.getRankColour(e.getPlayer()) + e.getPlayer().getName());
+        if (vanished) {
+            e.setJoinMessage(null);
+        } else {
+            plugin.vanish.putIfAbsent(player.getUniqueId(), false);
+            e.setJoinMessage("§7§l[§a§l+§7§l] " + RankUtils.getRankColour(player) + player.getName());
         }
-        e.setJoinMessage("§7§l[§a§l+§7§l] " + RankUtils.getRankColour(e.getPlayer()) + e.getPlayer().getName());
     }
 
     @EventHandler
     public void onLeave(PlayerQuitEvent e) {
-        if(WarPlugin.getInstance().vanish.containsKey(e.getPlayer().getUniqueId())) {
-            if(WarPlugin.getInstance().vanish.get(e.getPlayer().getUniqueId())) {
-                e.setQuitMessage(null);
-                return;
-            }
-            e.setQuitMessage("§7§l[§c§l-§7§l] " + RankUtils.getRankColour(e.getPlayer()) + e.getPlayer().getName());
+        var player = e.getPlayer();
+        var plugin = WarPlugin.getInstance();
+
+        Bukkit.getScheduler().runTaskLater(plugin, TablistClass::updateTablist, 1L);
+
+        boolean vanished = plugin.vanish.getOrDefault(player.getUniqueId(), false);
+
+        if (vanished) {
+            e.setQuitMessage(null);
+        } else {
+            e.setQuitMessage("§7§l[§c§l-§7§l] " + RankUtils.getRankColour(player) + player.getName());
         }
-        e.setQuitMessage("§7§l[§c§l-§7§l] " + RankUtils.getRankColour(e.getPlayer()) + e.getPlayer().getName());
     }
 
 }

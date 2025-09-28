@@ -11,3 +11,5 @@ commands:
   money:
   rank:
     aliases: [rang]
+  invsee:
+  bank:

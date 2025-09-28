@@ -1,4 +1,4 @@
-package de.redjulu.warPlugin.commands;
+package de.redjulu.warPlugin.commands.team;
 
 import de.redjulu.warPlugin.utils.EconomyUtils;
 import de.redjulu.warPlugin.utils.RankUtils;
@@ -30,7 +30,7 @@ public class MoneyCommand implements CommandExecutor, TabCompleter {
 
         int rank = RankUtils.getRank(p);
 
-        // /money -> Kontostand für alle
+        // /money -> Kontostand
         if (args.length == 0) {
             p.sendMessage("§aDein Kontostand: §e" + EconomyUtils.getMoney(p) + " §aMünzen.");
             return true;
@@ -53,20 +53,52 @@ public class MoneyCommand implements CommandExecutor, TabCompleter {
             return true;
         }
 
-        // /money <set|add|remove> <Spieler> <Betrag>
+        // /money <set|add|remove> <Spieler|@a> <Betrag>
         if (args.length == 3) {
             String action = args[0].toLowerCase();
-            Player target = Bukkit.getPlayer(args[1]);
-            if (target == null) {
-                p.sendMessage("§cSpieler nicht gefunden!");
-                return true;
-            }
+            String targetArg = args[1];
 
             int amount;
             try {
                 amount = Integer.parseInt(args[2]);
             } catch (NumberFormatException e) {
                 p.sendMessage("§cBitte gib eine Zahl an!");
+                return true;
+            }
+
+            // alle Spieler
+            if (targetArg.equalsIgnoreCase("@a")) {
+                switch (action) {
+                    case "set" -> {
+                        for (Player online : Bukkit.getOnlinePlayers()) {
+                            EconomyUtils.setMoney(online, amount);
+                            online.sendMessage("§aDein Kontostand wurde von " + RankUtils.getRankColour(p) + p.getName() + " §aauf §e" + amount + " §aMünzen gesetzt.");
+                        }
+                        p.sendMessage("§aDu hast den Kontostand von allen auf §e" + amount + " §aMünzen gesetzt.");
+                    }
+                    case "add" -> {
+                        for (Player online : Bukkit.getOnlinePlayers()) {
+                            EconomyUtils.addMoney(online, amount);
+                            online.sendMessage("§aDir wurden von " + RankUtils.getRankColour(p) + p.getName() + " §e" + amount + " §aMünzen hinzugefügt.");
+                        }
+                        p.sendMessage("§aDu hast allen §e" + amount + " §aMünzen hinzugefügt.");
+                    }
+                    case "remove" -> {
+                        for (Player online : Bukkit.getOnlinePlayers()) {
+                            EconomyUtils.removeMoney(online, amount);
+                            online.sendMessage("§aDir wurden von " + RankUtils.getRankColour(p) + p.getName() + " §e" + amount + " §aMünzen abgezogen.");
+                        }
+                        p.sendMessage("§aDu hast allen §e" + amount + " §aMünzen abgezogen.");
+                    }
+                    default -> p.sendMessage("§cBenutze: /money [set|add|remove] <Spieler|@a> <Betrag>");
+                }
+                return true;
+            }
+
+            // einzelner Spieler
+            Player target = Bukkit.getPlayer(targetArg);
+            if (target == null) {
+                p.sendMessage("§cSpieler nicht gefunden!");
                 return true;
             }
 
@@ -86,12 +118,12 @@ public class MoneyCommand implements CommandExecutor, TabCompleter {
                     p.sendMessage("§aDu hast " + RankUtils.getRankColour(target) + target.getName() + " §e" + amount + " §aMünzen abgezogen.");
                     target.sendMessage("§aDir wurden von " + RankUtils.getRankColour(p) + p.getName() + " §e" + amount + " §aMünzen abgezogen.");
                 }
-                default -> p.sendMessage("§cBenutze: /money [set|add|remove] <Spieler> <Betrag>");
+                default -> p.sendMessage("§cBenutze: /money [set|add|remove] <Spieler|@a> <Betrag>");
             }
             return true;
         }
 
-        p.sendMessage("§cBenutze: /money [set|add|remove] <Spieler> <Betrag>");
+        p.sendMessage("§cBenutze: /money [set|add|remove] <Spieler|@a> <Betrag>");
         return true;
     }
 
@@ -107,14 +139,12 @@ public class MoneyCommand implements CommandExecutor, TabCompleter {
         List<String> completions = new ArrayList<>();
 
         if (args.length == 1 && rank >= 2) {
-            // mögliche Actions filtern
             List<String> actions = Arrays.asList("set", "add", "remove");
             for (String action : actions) {
                 if (action.toLowerCase().startsWith(args[0].toLowerCase())) {
                     completions.add(action);
                 }
             }
-            // Online-Spieler filtern
             for (Player online : Bukkit.getOnlinePlayers()) {
                 if (online.getName().toLowerCase().startsWith(args[0].toLowerCase())) {
                     completions.add(online.getName());
@@ -124,6 +154,8 @@ public class MoneyCommand implements CommandExecutor, TabCompleter {
             if (args[0].equalsIgnoreCase("set") ||
                     args[0].equalsIgnoreCase("add") ||
                     args[0].equalsIgnoreCase("remove")) {
+
+
                 for (Player online : Bukkit.getOnlinePlayers()) {
                     if (online.getName().toLowerCase().startsWith(args[1].toLowerCase())) {
                         completions.add(online.getName());
@@ -136,5 +168,4 @@ public class MoneyCommand implements CommandExecutor, TabCompleter {
 
         return completions;
     }
-
 }

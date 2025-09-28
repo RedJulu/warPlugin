@@ -26,16 +26,21 @@ public abstract class AbstractGUI {
     private AbstractGUI previousGUI; // <- Parent/Back GUI
 
     public AbstractGUI(Player player) {
-        this(player, null, true);
+        // NEU: Setze initInventory auf false, damit die Subklasse es manuell steuert.
+        this(player, null, false);
     }
 
     public AbstractGUI(Player player, AbstractGUI previousGUI) {
-        this(player, previousGUI, true);
+        // NEU: Setze initInventory auf false.
+        this(player, previousGUI, false);
     }
 
     public AbstractGUI(Player player, AbstractGUI previousGUI, boolean initInventory) {
         this.player = player;
         this.previousGUI = previousGUI;
+
+        // WICHTIG: Die Initialisierung bleibt nur für spezifische Aufrufe erhalten.
+        // Die Standardkonstruktoren rufen diese jetzt mit 'false' auf.
         if (initInventory) {
             this.inventory = createInventory();
             setupButtons();
@@ -92,8 +97,6 @@ public abstract class AbstractGUI {
         }
         setButton(slot, map, action);
     }
-
-
 
     protected Map<Integer, Consumer<Player>> getButtons() { return buttons; }
 
