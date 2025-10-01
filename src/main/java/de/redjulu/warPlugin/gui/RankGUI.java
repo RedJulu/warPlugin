@@ -166,7 +166,7 @@ public class RankGUI extends AbstractGUI {
                 player.closeInventory();
                 // Erfolgssound beim Speichern
                 player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1.0f, 1.0f);
-                player.sendMessage("§8§l» §aDer Rang und die Organisation von §6" + target.getName() + "§a wurden erfolgreich gesetzt. (§e" + this.tempOrg + "§a)");
+                player.sendMessage("§8§l» §aDer Rang und die Organisation von " + RankUtils.getRankColour(target) + target.getName() + "§a wurden erfolgreich gesetzt. (§e" + this.tempOrg + "§a)");
             }
         }
     }

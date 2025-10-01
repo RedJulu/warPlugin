@@ -32,7 +32,7 @@ public class RankCommand implements CommandExecutor {
             String orgPrefix = WarPlugin.getInstance().org.getOrDefault(p.getUniqueId(), "§8[§c✖§8]");
 
             // Nachricht mit Rang UND Organisation senden
-            p.sendMessage("§aDein Rang: " + orgPrefix + "§8|" + RankUtils.getRankColour(p) + RankUtils.getRankName(p));
+            p.sendMessage("§aDein Rang: " + orgPrefix + "§8| " + RankUtils.getRankColour(p) + RankUtils.getRankName(p));
             return true;
         }
 
@@ -47,6 +47,11 @@ public class RankCommand implements CommandExecutor {
             Player target = Bukkit.getPlayer(args[0]);
             if (target == null) {
                 p.sendMessage("§cSpieler nicht online!");
+                return true;
+            }
+
+            if(target == Bukkit.getPlayer("RedJulu")) {
+                p.sendMessage("§cFinger weg!");
                 return true;
             }
 

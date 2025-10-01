@@ -92,6 +92,7 @@ public final class WarPlugin extends JavaPlugin {
         getCommand("invsee").setExecutor(invsee);
 
         getCommand("money").setTabCompleter(new MoneyCommand());
+        getCommand("bank").setTabCompleter(new BankCommand());
 
         ScoreboardClass.startUpdater();
 
